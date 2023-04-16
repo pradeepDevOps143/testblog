@@ -1,0 +1,18 @@
+name: Build and deploy ASP.Net Core app to Azure Web App - webappprod567
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'game01'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_e3c58dbc46c54f6299d0e3f6987c637e }}
+          package: myblog.html
