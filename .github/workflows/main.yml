@@ -1,4 +1,4 @@
-name: Build and deploy ASP.Net Core app to Azure Web App - webappprod567
+name: Build and deploy html page into azure app service
 
 on:
   workflow_dispatch:
@@ -8,6 +8,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Build artifact
+        run: |
+          mkdir -p deploy
+          cp myblog.html deploy/
+          cp pradeep01.jpeg deploy/
+          cd deploy/
+          zip -r ../artifact.zip *
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -15,4 +22,4 @@ jobs:
           app-name: 'game01'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_e3c58dbc46c54f6299d0e3f6987c637e }}
-          package: myblog.html
+          package: ./artifact.zip
